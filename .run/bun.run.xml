@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="bun" type="NodeJSConfigurationType" path-to-node="$USER_HOME$/.bun/bin/bun" node-parameters="$FilePathRelativeToProjectRoot$" working-dir="$PROJECT_DIR$">
+    <method v="2" />
+  </configuration>
+</component>

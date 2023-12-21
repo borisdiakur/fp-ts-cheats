@@ -1,0 +1,12 @@
+{
+  "dependencies": { "fp-ts": "^2.16.1" },
+  "devDependencies": {
+    "bun-types": "^1.0.18-1"
+  },
+  "name": "cheats_fp-ts",
+  "module": "index.ts",
+  "type": "module",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
