@@ -8,8 +8,8 @@ function parse(s: string): Either<Error, unknown> {
 }
 
 try {
-  console.info(parse('{ "animal": "cat" }')); // -> Right { animal: "cat" }
-  console.info(parse('{ "animal": "ca')); // -> Left error "Whoopsi..."
+  console.info(parse('{ "species": "cat" }')); // -> Right { species: "cat" }
+  console.info(parse('{ "species": "ca')); // -> Left error "Whoopsi..."
   console.info("I still run!");
 } catch (err) {
   console.error(err);
