@@ -8,7 +8,7 @@ const catFactsURL = "https://cat-fact.herokuapp.com/facts";
 const fetchCatFacts = (): TaskEither<Error, string> =>
   tryCatch(
     () => fetch(catFactsURL).then((res) => res.text()),
-    (reason) => new Error("Whoopsi: " + String(reason)),
+    (reason) => new Error("Whoopsie: " + String(reason)),
   );
 
-console.info(await fetchCatFacts()()); // -> Right "[{\"status... or Left error "Whoopsi..."
+console.info(await fetchCatFacts()()); // -> Right "[{\"status... or Left error "Whoopsie..."

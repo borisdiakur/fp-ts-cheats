@@ -7,8 +7,8 @@ import { type IOEither, tryCatch } from "fp-ts/IOEither";
 const readFileSync = (path: string): IOEither<Error, string> =>
   tryCatch(
     () => fs.readFileSync(path, "utf8"),
-    (reason) => new Error("Whoopsi: " + String(reason)),
+    (reason) => new Error("Whoopsie: " + String(reason)),
   );
 
-console.info(readFileSync("cat.gif")()); // -> Left error "Whoopsi..."
+console.info(readFileSync("cat.gif")()); // -> Left error "Whoopsie..."
 console.info(readFileSync("package.json")()); // -> Right "{\n...
