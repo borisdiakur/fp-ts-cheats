@@ -2,13 +2,27 @@
 // that either yields a value of type A or fails yielding
 // with an error of type E.
 
-import { TaskEither, tryCatch } from "fp-ts/TaskEither";
+import { type TaskEither, tryCatch } from "fp-ts/TaskEither";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
 
-const catFactsURL = "https://cat-fact.herokuapp.com/facts";
-const fetchCatFacts = (): TaskEither<Error, string> =>
-  tryCatch(
-    () => fetch(catFactsURL).then((res) => res.text()),
-    (reason) => new Error("Whoopsie: " + String(reason)),
-  );
+interface CatFact {
+  _id: string;
+  text: string;
+}
 
-console.info(await fetchCatFacts()()); // -> Right "[{\"status... or Left error "Whoopsie..."
+const randomCatFactURL = "https://cat-fact.herokuapp.com/facts/random";
+const fetchCatFacts: TaskEither<Error, CatFact> = tryCatch(
+  () => fetch(randomCatFactURL).then((res) => res.json()),
+  (reason) => new Error("Whoopsie: " + String(reason)),
+);
+
+// Log the result.
+pipe(
+  fetchCatFacts,
+  TE.match(
+    (err: Error) => console.error(err),
+    (result: CatFact) => console.log(result.text),
+  ),
+)();
+// -> "Cats have 245 bones."

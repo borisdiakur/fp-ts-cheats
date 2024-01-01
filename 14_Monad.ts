@@ -20,7 +20,7 @@ interface CatFact {
 const fetchCatFacts = (): Promise<CatFact[]> =>
   fetch("https://cat-fact.herokuapp.com/facts").then((res) => res.json());
 
-// Wrapping the async operation result in a TaskEither monad.
+// Wrap the async operation result in a TaskEither monad.
 const fetchCatFactsTE: TE.TaskEither<Error, CatFact[]> = TE.tryCatch(
   fetchCatFacts,
   (err) => new Error(`Whoopsie: ${err}`),
@@ -32,7 +32,8 @@ const extractFirstCatFact = (facts: CatFact[]): string => facts[0]?.text;
 // Function to provide a default value synchronously
 const getDefaultCatFact = () => "No cat facts available.";
 
-// Using chain and map within a pipe operation to unwrap the inner value
+// Using chain and map (or fold in our case) within a pipe operation
+// to unwrap the inner value.
 const catFactResult: E.Either<Error, string> = await pipe(
   TE.of(getDefaultCatFact()), // lift the result of getDefaultCatFact into TaskEither context
   TE.chain(() => fetchCatFactsTE), // TaskEither monad with fetch result
@@ -42,6 +43,8 @@ const catFactResult: E.Either<Error, string> = await pipe(
     (result) => TE.right(result),
   ),
 )();
+// Remember to chain when returning another functor and to map or fold
+// when returning a "normal" value.
 
 pipe(
   catFactResult,
