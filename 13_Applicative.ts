@@ -9,29 +9,29 @@ import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 
-const optionA = O.of((x: string) => x.length);
-const optionB = O.of("Hello");
+const optionGetLength = O.of((x: string) => x.length);
+const optionString = O.of("Hello");
 
-const resultOption = pipe(optionA, O.ap(optionB));
+const optionSrtingLength = pipe(optionGetLength, O.ap(optionString));
 
-console.info(O.getOrElse(() => 0)(resultOption));
+console.info(O.getOrElse(() => 0)(optionSrtingLength));
 // -> 5
 
 // The following example demonstrates applying a function to
 // values inside multiple applicative contexts simultaneously
 // without unwrapping them explicitly.
 
-const optionC = O.of((x: number) => (y: number) => x + y);
-const optionD = O.of(3);
-const optionE = O.of(5);
+const optionGetSum = O.of((x: number) => (y: number) => x + y);
+const optionX = O.of(3);
+const optionY = O.of(5);
 
-const resultOption2 = pipe(
-  optionC,
-  O.ap(optionD),
-  O.ap(optionE),
+const optionSum = pipe(
+  optionGetSum,
+  O.ap(optionX),
+  O.ap(optionY),
 );
 
-console.info(O.getOrElse(() => 0)(resultOption2));
+console.info(O.getOrElse(() => 0)(optionSum));
 // -> Outputs: 8
 
 // Applicatives allow us to run code in parallel.
