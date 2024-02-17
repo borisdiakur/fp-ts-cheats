@@ -2,11 +2,11 @@
 
 // Solution: Option, fromNullable
 
-import { pipe } from "fp-ts/lib/function";
-import { fromNullable, getOrElse, getOrElseW, type Option } from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
+import { option as O } from "fp-ts";
 
-function find<A>(as: Array<A>, predicate: (a: A) => boolean): Option<A> {
-  return fromNullable(as.find(predicate));
+function find<A>(as: Array<A>, predicate: (a: A) => boolean): O.Option<A> {
+  return O.fromNullable(as.find(predicate));
 }
 
 const species = ["cat", "dog", "mouse", "bat", null, undefined];
@@ -28,7 +28,7 @@ console.info(find(species, isNull)); // -> None
 function findElseCow<A>(as: Array<A>, predicate: (a: A) => boolean) {
   return pipe(
     find(as, predicate),
-    getOrElse(() => 'cow' as A)
+    O.getOrElse(() => 'cow' as A)
   )
 }
 
@@ -42,7 +42,7 @@ console.info(findElseCow(species, isNumber)); // -> "cow"
 function findElseSymbolCow<A>(as: Array<A>, predicate: (a: A) => boolean) {
   return pipe(
     find(as, predicate),
-    getOrElseW(() => Symbol('cow'))
+    O.getOrElseW(() => Symbol('cow'))
   )
 }
 

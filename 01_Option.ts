@@ -5,14 +5,14 @@
 
 // Solution: Option
 
-import { none, type Option, some } from "fp-ts/Option";
+import { option as O } from "fp-ts";
 
 export function findIndex<A>(
   as: Array<A>,
   predicate: (a: A) => boolean,
-): Option<number> {
+): O.Option<number> {
   const index = as.findIndex(predicate);
-  return index === -1 ? none : some(index);
+  return index === -1 ? O.none : O.some(index);
 }
 
 const species = ["cat", "dog", "mouse", "bat"];

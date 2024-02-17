@@ -1,7 +1,7 @@
-import { type Either, tryCatch } from "fp-ts/Either";
+import { either as E } from "fp-ts";
 
-function parse(s: string): Either<Error, unknown> {
-  return tryCatch(
+function parse(s: string): E.Either<Error, unknown> {
+  return E.tryCatch(
     () => JSON.parse(s),
     (reason) => new Error("Whoopsie: " + String(reason)),
   );

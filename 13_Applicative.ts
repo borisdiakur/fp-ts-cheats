@@ -5,9 +5,9 @@
 // In the example below, the Applicative is represented by the
 // Option type.
 
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { taskEither as TE, option as O } from 'fp-ts'
+import { pipe } from "fp-ts/function";
+import { type CatFact, fetchRandomCatFactTE } from "./utils/catFacts";
 
 const optionGetLength = O.of((x: string) => x.length);
 const optionString = O.of("Hello");
@@ -35,22 +35,6 @@ console.info(O.getOrElse(() => 0)(optionSum));
 // -> Outputs: 8
 
 // Applicatives allow us to run code in parallel.
-
-interface CatFact {
-  _id: string;
-  text: string;
-}
-
-const fetchRandomCatFact = (): Promise<CatFact> =>
-  fetch("https://cat-fact.herokuapp.com/facts/random").then((res) =>
-    res.json()
-  );
-
-// Wrap the async operation result in a TaskEither monad.
-const fetchRandomCatFactTE = TE.tryCatch(
-  fetchRandomCatFact,
-  (err) => new Error(`Whoopsie: ${err}`),
-);
 
 // Execute tasks in parallel and combine the results.
 const fetchTwoCatFacts = pipe(

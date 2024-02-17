@@ -1,17 +1,17 @@
 // The Eq type class represents types which support
 // decidable equality.
 
-import { type Eq } from "fp-ts/Eq";
+import { eq as EQ } from "fp-ts";
 
 type Has<A> = (a: A) => (as: Array<A>) => boolean;
-const has = <A>(E: Eq<A>): Has<A> => (a) => (as) =>
+const has = <A>(E: EQ.Eq<A>): Has<A> => (a) => (as) =>
   as.some((item) => E.equals(item, a));
 
 type Species = {
   type: "cat" | "dog" | "mouse";
 };
 
-const eqSpecies: Eq<Species> = {
+const eqSpecies: EQ.Eq<Species> = {
   equals: (x, y) => x.type === y.type,
 };
 

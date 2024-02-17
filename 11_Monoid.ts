@@ -1,16 +1,13 @@
 // The monoid extends the semigroup with an identity value
 // which is "neutral" with respect to concat.
 
-import { concatAll, type Monoid, struct } from "fp-ts/Monoid";
-import * as N from "fp-ts/number";
-import { getMonoid, none, Option, some } from "fp-ts/Option";
-import { last } from "fp-ts/Semigroup";
+import { monoid as M, number as N, option as O, semigroup as SG } from "fp-ts";
 
 type Point = {
   x: number;
   y: number;
 };
-const monoidPoint: Monoid<Point> = struct({
+const monoidPoint: M.Monoid<Point> = M.struct({
   x: N.MonoidSum,
   y: N.MonoidSum,
 });
@@ -19,7 +16,7 @@ type Vector = {
   from: Point;
   to: Point;
 };
-const monoidVector: Monoid<Vector> = struct({
+const monoidVector: M.Monoid<Vector> = M.struct({
   from: monoidPoint,
   to: monoidPoint,
 });
@@ -36,29 +33,29 @@ const vectorB: Vector = {
 console.info(monoidVector.concat(vectorA, vectorB));
 // -> { from: { x: 2, y: 2 }, to: { x: 4, y: 7 } }
 
-console.info(concatAll(monoidVector)([vectorA, vectorB]));
+console.info(M.concatAll(monoidVector)([vectorA, vectorB]));
 // -> { from: { x: 2, y: 2 }, to: { x: 4, y: 7 } }
 
 interface FamPrefs {
-  kids: Option<number>;
-  cats: Option<number>;
-  dogs: Option<number>;
+  kids: O.Option<number>;
+  cats: O.Option<number>;
+  dogs: O.Option<number>;
 }
 
-const monoidFamPrefs: Monoid<FamPrefs> = struct<FamPrefs>({
-  kids: getMonoid(last<number>()),
-  cats: getMonoid(last<number>()),
-  dogs: getMonoid(last<number>()),
+const monoidFamPrefs: M.Monoid<FamPrefs> = M.struct<FamPrefs>({
+  kids: O.getMonoid(SG.last<number>()),
+  cats: O.getMonoid(SG.last<number>()),
+  dogs: O.getMonoid(SG.last<number>()),
 });
 const desiredFamPrefs: FamPrefs = {
-  kids: some(3),
-  cats: some(2),
-  dogs: some(1),
+  kids: O.some(3),
+  cats: O.some(2),
+  dogs: O.some(1),
 };
 const realisticFamPrefs: FamPrefs = {
-  kids: some(0),
-  cats: none,
-  dogs: some(0),
+  kids: O.some(0),
+  cats: O.none,
+  dogs: O.some(0),
 };
 
 /** realistic overrides desired */

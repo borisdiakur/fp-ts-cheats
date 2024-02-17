@@ -5,8 +5,7 @@
 // element inside the functor, preserving the structure
 // of the functor and lifting it to a new context.
 
-import { fromNullable, type Option } from "fp-ts/Option";
-import { Functor1 } from "fp-ts/Functor";
+import { option as O, functor as F } from "fp-ts";
 
 // Define a constant URI with the value "Response" and a type
 // with the same name to represent the type of the functor.
@@ -33,7 +32,7 @@ interface Response<A> {
 // This is the functor instance for `Response`. It allows us to use
 // the map function on values of type Response<A> to transform their
 // bodies while keeping the other properties unchanged.
-export const functorResponse: Functor1<URI> = {
+export const functorResponse: F.Functor1<URI> = {
   URI,
   // The map function takes a Response<A> and a function f: (a: A) => B
   // and returns a new Response<B> where the body property is transformed
@@ -64,11 +63,11 @@ const fetchCatFacts = async (): Promise<Response<CatFact[]>> => {
 
 const apiResponse: Response<CatFact[]> = await fetchCatFacts();
 
-const extractFirstCatFact = (facts: CatFact[]): Option<string> =>
-  fromNullable(facts[0]?.text);
+const extractFirstCatFact = (facts: CatFact[]): O.Option<string> =>
+  O.fromNullable(facts[0]?.text);
 
 // Use functorResponse.map to transform the body of the API response.
-const transformedResponse: Response<Option<string>> = functorResponse.map(
+const transformedResponse: Response<O.Option<string>> = functorResponse.map(
   apiResponse,
   extractFirstCatFact,
 );

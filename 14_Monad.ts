@@ -7,9 +7,8 @@
 // `chain` allows us to sequence computations by applying
 // a function that returns a new Monad.
 
-import { pipe } from "fp-ts/lib/function";
-import * as TE from "fp-ts/lib/TaskEither";
-import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/function";
+import { either as E, taskEither as TE } from "fp-ts";
 
 interface CatFact {
   _id: string;

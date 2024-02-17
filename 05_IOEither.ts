@@ -2,10 +2,10 @@
 // yields a value of type A or fails yielding an error of type E.
 
 import fs from "fs";
-import { type IOEither, tryCatch } from "fp-ts/IOEither";
+import { ioEither as IOE } from "fp-ts";
 
-const readFileSync = (path: string): IOEither<Error, string> =>
-  tryCatch(
+const readFileSync = (path: string): IOE.IOEither<Error, string> =>
+  IOE.tryCatch(
     () => fs.readFileSync(path, "utf8"),
     (reason) => new Error("Whoopsie: " + String(reason)),
   );
