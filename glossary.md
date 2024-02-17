@@ -121,3 +121,7 @@ const eqNumber: Eq<number> = {
   equals: (x, y) => x === y
 }
 ```
+
+## Predicate
+
+A Predicate is a function that takes an argument and returns a boolean, indicating whether the argument satisfies a condition.
