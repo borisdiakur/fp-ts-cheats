@@ -40,7 +40,9 @@ const oneNumberV = lift(oneNumber);
 // If all validations pass, it returns right(s), otherwise,
 // it accumulates the errors in a non-empty array using mapLeft.
 // The result is an Either<NonEmptyArray<string>, string>.
-function validatePassword(s: string): E.Either<NEA.NonEmptyArray<string>, string> {
+function validatePassword(
+  s: string,
+): E.Either<NEA.NonEmptyArray<string>, string> {
   return pipe(
     // getSemigroup is used to create a Semigroup for combining
     // multiple values of the same type.

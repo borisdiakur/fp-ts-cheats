@@ -2,12 +2,15 @@
 // that either yields a value of type A or fails yielding
 // with an error of type E.
 
-import { taskEither as TE, apply } from 'fp-ts'
-import { pipe } from 'fp-ts/function'
+import { apply, taskEither as TE } from "fp-ts";
+import { pipe } from "fp-ts/function";
 import { type CatFact } from "./utils/catFacts";
 
 const fetchRandomCatFact: TE.TaskEither<Error, CatFact> = TE.tryCatch(
-  () => fetch("https://cat-fact.herokuapp.com/facts/random").then((res) => res.json()),
+  () =>
+    fetch("https://cat-fact.herokuapp.com/facts/random").then((res) =>
+      res.json()
+    ),
   (reason) => new Error("Whoopsie: " + String(reason)),
 );
 
@@ -26,17 +29,17 @@ pipe(
 pipe(
   apply.sequenceS(TE.ApplyPar)({ // TE.ApplyPar applies the tasks in parallel.
     catFact1: fetchRandomCatFact,
-    catFact2: fetchRandomCatFact
+    catFact2: fetchRandomCatFact,
   }),
   TE.match(
     (err: Error) => console.error(err),
     (result: {
-      catFact1: CatFact
-      catFact2: CatFact
-      }) => {
-        console.log(result.catFact1.text)
-        console.log(result.catFact2.text)
-    }
+      catFact1: CatFact;
+      catFact2: CatFact;
+    }) => {
+      console.log(result.catFact1.text);
+      console.log(result.catFact2.text);
+    },
   ),
 )();
 // -> "Cats are the most popular pet in the United States."
@@ -47,14 +50,14 @@ pipe(
 pipe(
   apply.sequenceT(TE.ApplyPar)(
     fetchRandomCatFact,
-    fetchRandomCatFact
+    fetchRandomCatFact,
   ),
   TE.match(
     (err: Error) => console.error(err),
     (result: [CatFact, CatFact]) => {
-        console.log(result[0].text)
-        console.log(result[0].text)
-    }
+      console.log(result[0].text);
+      console.log(result[0].text);
+    },
   ),
 )();
 // -> "Cats are very amazing."
